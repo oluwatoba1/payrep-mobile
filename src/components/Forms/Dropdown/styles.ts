@@ -1,34 +1,13 @@
-import {TextStyle, ViewStyle} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Colors from '../../../theme/Colors';
 import {scale, scaleHeight} from '../../../utils/Helpers';
-import {baseDP} from '../../../utils/Constants';
 import {PNB, PNR} from '../../../theme/Fonts';
 
-interface DropdownStyle {
-  modalView: ViewStyle;
-  // modalContainer: ViewStyle;
-  buttonClose: ViewStyle;
-  centeredView: ViewStyle;
-  button: TextStyle;
-  textStyle: TextStyle;
-  modalText: TextStyle;
-  item: ViewStyle;
-  searchContainer: ViewStyle;
-  modalHeader: ViewStyle;
-  itemText: TextStyle;
-  dropdownText: TextStyle;
-  searchInput: TextStyle;
-  searchIcon: ViewStyle;
-  overlay: ViewStyle;
-}
-
-export const DropDownStyles: DropdownStyle = {
+const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderWidth: 1, borderColor: 'red'
-    // marginVertical: scaleHeight(16),
   },
   modalView: {
     width: scaleHeight(375),
@@ -52,7 +31,6 @@ export const DropDownStyles: DropdownStyle = {
     textAlign: 'center',
     color: Colors.gray[700],
     fontSize: scale(14),
-    
   },
   item: {
     padding: scaleHeight(10),
@@ -96,7 +74,8 @@ export const DropDownStyles: DropdownStyle = {
     fontFamily: PNR,
     fontSize: 14,
     lineHeight: scaleHeight(21),
-    margin: 0, height: '100%'
+    margin: 0,
+    height: '100%',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -104,9 +83,15 @@ export const DropDownStyles: DropdownStyle = {
     alignItems: 'center',
     width: '100%',
   },
+  overlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(71, 68, 60, 0.48)',
+  },
   searchContainer: {
     flexDirection: 'row',
-    marginBottom: scaleHeight(15),
+    marginBottom: 15,
     borderWidth: 1,
     borderColor: Colors.gray[50],
     borderRadius: scale(5),
@@ -116,20 +101,17 @@ export const DropDownStyles: DropdownStyle = {
   },
   searchInput: {
     flex: 1,
-    marginLeft: 10,
+    marginLeft: scale(10),
     fontSize: scale(14),
-    padding: scale(8),
-    color: Colors.gray['base'],
+    padding: scaleHeight(8),
+    color: Colors.gray.base,
     fontFamily: PNB,
+    backgroundColor: Colors.transparent,
   },
   searchIcon: {
-    width: scaleHeight(16),
-    height: scale(16),
+    width: scale(16),
+    height: scaleHeight(16),
   },
-  overlay: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'rgba(71, 68, 60, 0.48)',
-  },
-};
+});
+
+export default styles;

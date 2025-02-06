@@ -6,12 +6,12 @@ import {BASE_URL} from '@utils/Constants';
 const GeneralApi = createApi({
   reducerPath: 'generalApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: ${BASE_URL}/api/v1/general/,
+    baseUrl: `${BASE_URL}/api/v1/general/`,
     prepareHeaders(headers, {getState}) {
       headers.set('Content-Type', 'application/json');
       const {token} = (getState() as RootState).auth.credentials;
       if (token) {
-        headers.set('Authorization', Bearer ${token});
+        headers.set('Authorization', `Bearer ${token}`);
       }
       return headers;
     },

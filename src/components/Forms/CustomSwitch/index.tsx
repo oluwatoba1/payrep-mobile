@@ -11,24 +11,21 @@ interface CustomSwitchProps {
   trackColorOff?: string;
 }
 
-const CustomSwitch: React.FC<CustomSwitchProps> = ({
+export default function CustomSwitch({
   value,
   onValueChange,
   thumbColorOn = '#FFFFFF',
   thumbColorOff = '#F4F3F4',
   trackColorOn = '#02AB75',
   trackColorOff = '#767577',
-}) => {
+}: CustomSwitchProps){
   return (
-      <Switch
-        value={value}
-        onValueChange={onValueChange}
-        thumbColor={value ? thumbColorOn : thumbColorOff}
-        trackColor={{ false: trackColorOff, true: trackColorOn }}
-        style={styles.switch}
-      />
+    <Switch
+      value={value}
+      onValueChange={onValueChange}
+      thumbColor={value ? thumbColorOn : thumbColorOff}
+      trackColor={{false: trackColorOff, true: trackColorOn}}
+      style={styles.switch}
+    />
   );
 };
-
-
-export default CustomSwitch;

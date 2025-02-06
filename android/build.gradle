@@ -1,11 +1,19 @@
 buildscript {
+    def localProperties = new Properties()
+    def localPropertiesFile = rootProject.file('local.properties')
+    if (localPropertiesFile.exists()) {
+        localProperties.load(new FileInputStream(localPropertiesFile))
+    }
     ext {
         buildToolsVersion = "35.0.0"
-        minSdkVersion = 24
+        minSdkVersion = 28
         compileSdkVersion = 35
         targetSdkVersion = 34
         ndkVersion = "27.1.12297006"
         kotlinVersion = "2.0.21"
+        storePassword = localProperties.getProperty('storePassword')
+        keyAlias = localProperties.getProperty('keyAlias')
+        keyPassword = localProperties.getProperty('keyPassword')
     }
     repositories {
         google()

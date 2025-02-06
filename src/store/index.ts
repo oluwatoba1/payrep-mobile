@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 
-import { AppSlice, AuthSlice, ComplianceSlice } from './slices/';
-import { AuthApi, ComplianceApi } from './apis';
+import {AppSlice, AuthSlice, ComplianceSlice} from './slices/';
+import {AuthApi, ComplianceApi, GeneralApi, CustomerApi} from './apis';
 
 export const store = configureStore({
   reducer: {
@@ -9,13 +9,17 @@ export const store = configureStore({
     [AppSlice.name]: AppSlice.reducer,
     [AuthSlice.name]: AuthSlice.reducer,
     [AuthApi.reducerPath]: AuthApi.reducer,
+    [GeneralApi.reducerPath]: GeneralApi.reducer,
+    [CustomerApi.reducerPath]: CustomerApi.reducer,
     [ComplianceSlice.name]: ComplianceSlice.reducer,
     [ComplianceApi.reducerPath]: ComplianceApi.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware()
       .concat(AuthApi.middleware)
-      .concat(ComplianceApi.middleware),
+      .concat(ComplianceApi.middleware)
+      .concat(GeneralApi.middleware)
+      .concat(CustomerApi.middleware),
   // to add more middleware, simply chain `.concat(middle)` to the code above and
 });
 

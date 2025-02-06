@@ -1,43 +1,68 @@
-import { View } from "react-native";
-import { Button, TextInput, Typography } from "../../../../components/Forms";
-import { MainLayout } from "../../../../components/Layout";
-import { mainProfileCompletionStyles } from "../mainProfileCompletionStyles";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { StackScreenProps } from "@react-navigation/stack";
-import { HomeStackParamList } from "../../../../navigation/types";
-import { setProfileField } from "../../../../store/slices/profileCompletionSlice";
-import DashedProgressBar from "../../../../components/ProgressBars/DashedProgressBar";
+import {useState} from 'react';
+import {View} from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
 
+import {Button, Typography} from '../../../../components/Forms';
+import {MainLayout} from '../../../../components/Layout';
+import {mainProfileCompletionStyles} from '../mainProfileCompletionStyles';
+import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
+import {
+  HomeStackParamList,
+  ProfileStackParamList,
+} from '../../../../navigation/types';
+import DashedProgressBar from '../../../../components/ProgressBars/DashedProgressBar';
+import {CustomSwitch} from '@components/Forms';
+import {useUpdatePepMutation} from '@store/apis/customerApi';
+import useToast from '@hooks/useToast';
+import {DEFAULT_ERROR_MESSAGE} from '@utils/Constants';
 
-type PepStatusScreenNavigationProps = StackScreenProps<HomeStackParamList>
+type PepProps = StackScreenProps<ProfileStackParamList, 'Pep'>;
 
-export default function PepStatusScreen({ navigation }: PepStatusScreenNavigationProps) {
-    const dispatch = useAppDispatch();
-    const { pepStatus } = useAppSelector((state) => state.profileCompletion);
+export default function Pep({navigation: {navigate}}: PepProps) {
+  const {showToast} = useToast();
 
-    const handleNavigation = () => {
-        navigation.navigate('SourceOfIncomeScreen')
+  const [updatePep, {isLoading}] = useUpdatePepMutation();
+
+  const [value, setValue] = useState<boolean>(false);
+
+  const submit = async () => {
+    try {
+      const {status, message} = await updatePep({
+        pep: value,
+      }).unwrap();
+      if (status) {
+        navigate('SourceOfIncome');
+      } else {
+        showToast('danger', message);
+      }
+    } catch (error: ErrorResponse | any) {
+      showToast(
+        'danger',
+        error.data?.message || error.message || DEFAULT_ERROR_MESSAGE,
+      );
     }
-    return (
-        <MainLayout backAction={() => { }}>
-            <View style={mainProfileCompletionStyles.container}>
-                <View>
-                    <View style={mainProfileCompletionStyles.titleContainer}>
-                        <Typography title="PEP Status" type="heading4-sb" />
-                        <DashedProgressBar progress={6} />
-                        <Typography type="body-r" title="Are you politically exposed? Please respond with either yes or no." />
-                    </View>
+  };
+  return (
+    <MainLayout
+      backAction={() => navigate('ProfileCompletionIntro')}
+      isLoading={isLoading}>
+      <View style={mainProfileCompletionStyles.container}>
+        <View>
+          <View style={mainProfileCompletionStyles.titleContainer}>
+            <Typography title="PEP Status" type="heading4-sb" />
+            <DashedProgressBar progress={6} />
+            <Typography
+              type="body-r"
+              title="Are you politically exposed? Toggle switch on or off for yes or no respectively."
+            />
+          </View>
 
-                    {/* should be either yes or no radio button */}
-                    <TextInput type='text' placeholder='PEP Status'
-                        value={pepStatus}
-                        onChangeText={(text) => dispatch(setProfileField({ key: 'pepStatus', value: text }))}
-                    />
-                </View>
-                <View style={mainProfileCompletionStyles.buttonContainer} >
-                    <Button title="Save" onPress={handleNavigation} />
-                </View>
-            </View>
-        </MainLayout>
-    )
+          <CustomSwitch value={value} onValueChange={setValue} />
+        </View>
+        <View style={mainProfileCompletionStyles.buttonContainer}>
+          <Button title="Save" onPress={submit} />
+        </View>
+      </View>
+    </MainLayout>
+  );
 }

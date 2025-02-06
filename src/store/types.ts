@@ -7,23 +7,23 @@ interface IAppState {
 }
 
 enum RegistrationSteps {
-  MOBILE_NUMBER_REGISTRATION = "MOBILE_NUMBER_REGISTRATION",
-  EMAIL_REGISTRATION = "EMAIL_REGISTRATION",
-  PASSWORD_REGISTRATION = "PASSWORD_REGISTRATION",
-  NATIONALITY = "NATIONALITY",
-  BVN_VERIFICATION = "BVN_VERIFICATION",
-  ADDRESS_REGISTRATION = "ADDRESS_REGISTRATION",
-  IDENTIFICATION_REGISTRATION = "IDENTIFICATION_REGISTRATION",
-  PEP_IDENTIFICATION = "PEP_IDENTIFICATION",
-  SOURCE_OF_INCOME = "SOURCE_OF_INCOME",
-  REGISTERED = "REGISTERED",
+  MOBILE_NUMBER_REGISTRATION = 'MOBILE_NUMBER_REGISTRATION',
+  EMAIL_REGISTRATION = 'EMAIL_REGISTRATION',
+  PASSWORD_REGISTRATION = 'PASSWORD_REGISTRATION',
+  NATIONALITY = 'NATIONALITY',
+  BVN_VERIFICATION = 'BVN_VERIFICATION',
+  ADDRESS_REGISTRATION = 'ADDRESS_REGISTRATION',
+  IDENTIFICATION_REGISTRATION = 'IDENTIFICATION_REGISTRATION',
+  PEP_IDENTIFICATION = 'PEP_IDENTIFICATION',
+  SOURCE_OF_INCOME = 'SOURCE_OF_INCOME',
+  REGISTERED = 'REGISTERED',
 }
 
 interface IAuth {
   credentials: {
     token: string | null;
     user_id: string | null;
-  }
+  };
   registration: {
     mobileNumber: string;
     email: string;
@@ -37,7 +37,7 @@ interface ICustomerInfo {
   surname?: string;
   other_name?: string;
   stage?: RegistrationSteps;
-  username?: string
+  username?: string;
 }
 
 interface IState {
@@ -106,16 +106,16 @@ interface IUser {
   onboard: {
     step: number;
     stage:
-    | 'pending'
-    | 'submitted'
-    | 'approved'
-    | 'basic'
-    | 'address'
-    | 'bvn-number'
-    | 'nin-number'
-    | 'id-card'
-    | 'liveness-check'
-    | 'transaction-pin';
+      | 'pending'
+      | 'submitted'
+      | 'approved'
+      | 'basic'
+      | 'address'
+      | 'bvn-number'
+      | 'nin-number'
+      | 'id-card'
+      | 'liveness-check'
+      | 'transaction-pin';
     kycStage: 'pending';
   };
   kyc: {
@@ -201,7 +201,7 @@ interface IBusinessBank {
   accountName: string;
 }
 
-interface IBeneficiary { }
+interface IBeneficiary {}
 
 interface IWallet {
   sendMoney: {
@@ -266,7 +266,7 @@ interface ICompliance {
     phoneNumber: string;
     gender: string;
     email: string;
-  }
+  };
 }
 
 interface Business {
@@ -333,11 +333,11 @@ interface RegisterCredentials {
 }
 
 interface BvnLookupCredentials {
-  bvn: string
+  bvn: string;
 }
 
 interface VerificationLogsCredentials {
-  verification: string
+  verification: string;
 }
 
 interface VerificationLogsResponse {
@@ -352,10 +352,21 @@ interface VerificationLogsResponse {
   created_at: string;
 }
 
+interface LocationCredentials {
+  residential_address: string;
+  state: string;
+  lga: string;
+  country: string;
+}
+
+interface PepCredentials {
+  pep: boolean
+}
+
 interface AuthResponse<Type> {
   status: boolean;
   message: string;
-  data: Type
+  data: Type;
 }
 
 interface SuccessResponse<Type> {
@@ -366,4 +377,4 @@ interface SuccessResponse<Type> {
   token: string;
 }
 
-interface ErrorResponse { }
+interface ErrorResponse {}

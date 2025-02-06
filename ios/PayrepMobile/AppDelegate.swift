@@ -13,7 +13,25 @@ class AppDelegate: RCTAppDelegate {
     // They will be passed down to the ViewController used by React Native.
     self.initialProps = [:]
 
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    // 2. Create an instance of UIWindow
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    // 3. Set up the UINavigationController with a UIViewController
+    UIViewController *viewController = [UIViewController new];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [navigationController setNavigationBarHidden:YES animated:NO];
+    
+    // 4. Set the RN bridge to use the UIWindow as the root view controller
+    RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                    moduleName:self.moduleName
+                                              initialProperties:self.initialProps];
+    viewController.view = rootView;
+    self.window.rootViewController = navigationController; // Use the UINavigationController as the root
+    
+    [self.window makeKeyAndVisible];
+    
+    return YES;
   }
 
   override func sourceURL(for bridge: RCTBridge) -> URL? {

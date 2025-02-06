@@ -4,23 +4,31 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {MainLayout} from '@components/Layout';
 import {Button, Dropdown, TextInput, Typography} from '@components/Forms';
 import {mainProfileCompletionStyles} from '../mainProfileCompletionStyles';
-import {useUpdateLocationMutation} from '@store/apis/complianceApi';
+import {useUpdateLocationMutation} from '@store/apis/customerApi';
 import {
   useFetchStatesQuery,
   useFetchLgasMutation,
   useFetchCountriesQuery,
 } from '@store/apis/generalApi';
-import useLocationValidation from './validators';
 import Pad from '@components/Pad';
+import useLocationValidation from './validators';
+import {ProfileStackParamList} from '@navigation/types';
+import useToast from '@hooks/useToast';
+import { DEFAULT_ERROR_MESSAGE } from '@utils/Constants';
 
-type ResidenceAddressScreenProps = StackScreenProps<
-  KYCStackParamList,
+interface Option {
+  label: string;
+  value: string;
+}
+
+type LocationDetailsProps = StackScreenProps<
+  ProfileStackParamList,
   'LocationDetails'
 >;
 
-export default function ResidentialAddress({
+export default function LocationDetails({
   navigation: {navigate},
-}: ResidenceAddressScreenProps) {
+}: LocationDetailsProps) {
   const {
     formData,
     formErrors,
@@ -30,6 +38,9 @@ export default function ResidentialAddress({
     setLga,
     setResidentialAddress,
   } = useLocationValidation();
+  const {showToast} = useToast()
+
+  const [updateLocation, {isLoading}] = useUpdateLocationMutation();
 
   // Fetch states and countries
   const {data: statesData, isLoading: statesLoading} = useFetchStatesQuery();
@@ -41,27 +52,44 @@ export default function ResidentialAddress({
     useFetchLgasMutation();
 
   // Local states for dropdown selections
-  const [selectedState, setSelectedState] = useState<string | undefined>(
+  const [selectedState, setSelectedState] = useState<Option | undefined>(
     undefined,
   );
-  const [selectedCountry, setSelectedCountry] = useState<string | undefined>(
+  const [selectedCountry, setSelectedCountry] = useState<Option | undefined>(
     undefined,
   );
-  const [selectedLga, setSelectedLga] = useState<string | undefined>(undefined);
+  const [selectedLga, setSelectedLga] = useState<Option | undefined>(undefined);
+
+  const submit = async () => {
+      try {
+        const {status, message} = await updateLocation({
+          state: formData.state,
+          country: formData.country,
+          lga: formData.lga,
+          residential_address: formData.residentialAddress,
+        }).unwrap();
+        if (status) {
+          navigate('Pep');
+        } else {
+          showToast('danger', message);
+        }
+      } catch (error: ErrorResponse | any) {
+        showToast(
+          'danger',
+          error.data?.message || error.message || DEFAULT_ERROR_MESSAGE,
+        );
+      }
+    };
 
   // Update LGAs when state changes
   useEffect(() => {
     if (selectedState) {
-      fetchLgas({state: selectedState});
+      fetchLgas({state: selectedState.value});
     }
   }, [selectedState]);
 
-  const handleNavigate = () => {
-    navigate('PepStatusScreen');
-  };
-
   return (
-    <MainLayout backAction={() => {}}>
+    <MainLayout backAction={() => navigate("ProfileCompletionIntro")} isLoading={isLoading}>
       <View style={mainProfileCompletionStyles.container}>
         <View style={mainProfileCompletionStyles.titleContainer}>
           <Typography title="Location details" type="heading4-sb" />
@@ -88,7 +116,7 @@ export default function ResidentialAddress({
           selectedOption={selectedCountry}
           onSelect={option => {
             setSelectedCountry(option);
-            setCountry(option);
+            setCountry(option.value);
           }}
           isLoading={countriesLoading}
         />
@@ -102,7 +130,7 @@ export default function ResidentialAddress({
           selectedOption={selectedState}
           onSelect={option => {
             setSelectedState(option);
-            setState(option);
+            setState(option.value);
             setSelectedLga(undefined); // Reset LGA when state changes
           }}
           isLoading={statesLoading}
@@ -117,13 +145,13 @@ export default function ResidentialAddress({
           selectedOption={selectedLga}
           onSelect={option => {
             setSelectedLga(option);
-            setLga(option);
+            setLga(option.value);
           }}
           isLoading={lgasLoading}
         />
 
         <View style={mainProfileCompletionStyles.buttonContainer}>
-          <Button title="Save" onPress={handleNavigate} />
+          <Button title="Save" onPress={() => validateForm(submit)} />
         </View>
       </View>
     </MainLayout>

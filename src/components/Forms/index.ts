@@ -5,6 +5,7 @@ export {default as TextInput} from './TextInput';
 export {default as Typography} from './Typography';
 export {default as HybridTypography} from './HybridTypography';
 export {default as PinPad} from './PinPad';
+export {default as CustomSwitch} from './CustomSwitch';
 export {default as SearchBar} from './SearchBar';
 export {default as SearchInput} from './SearchInput';
 export {default as RadioButton} from './RadioButton';

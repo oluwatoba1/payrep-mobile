@@ -1,4 +1,4 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import {NavigatorScreenParams} from '@react-navigation/native';
 
 interface INotification {
   title: string;
@@ -17,8 +17,8 @@ export type PublicNavigatorParamList = {
   CreatePassword: undefined;
 
   CreateAccountScreen: undefined;
-  MobileNumber: { userType: string };
-  VerificationCode: { userType: string };
+  MobileNumber: {userType: string};
+  VerificationCode: {userType: string};
   EmailVerification: undefined;
   EmailAddress: undefined;
   ConfirmPasswordScreen: undefined;
@@ -32,7 +32,7 @@ export type PublicNavigatorParamList = {
 export type PrivateNavigatorParamList = {
   ProfileSetupIntro: undefined;
   BottomTabs: NavigatorScreenParams<BottomTabParamList>;
-  MessageScreen: { title: string; message: string; action: () => void };
+  MessageScreen: {title: string; message: string; action: () => void};
 };
 
 export type BottomTabParamList = {
@@ -105,11 +105,11 @@ export type ProfileStackParamList = {
   ProfileCompletionIntro: undefined;
   BvnVerification: undefined;
   FacialRecognition: undefined;
-  ResidentialAddressRegistration: undefined;
+  LocationDetails: undefined;
   MeansOfIdentification: undefined;
   Pep: undefined;
   SourceOfIncome: undefined;
-}
+};
 
 export type TransactionStackParamList = {
   TransactionHistoryScreen: undefined;
