@@ -151,3 +151,15 @@ export async function persistAppState(state: Partial<IAppState>): Promise<void> 
     //TODO: Decide on what to do here
   }
 }
+
+export const chunkArray = (array: Array<any> = [], size: number) => {
+  let index = 0;
+  const chunkedArray = [];
+
+  while (index < array.length) {
+    chunkedArray.push(array.slice(index, index + size));
+    index += size;
+  }
+
+  return chunkedArray;
+};

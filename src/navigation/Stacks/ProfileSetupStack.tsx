@@ -7,6 +7,7 @@ import {
   ProfileCompletionIntro,
   FacialRecognition,
   LocationDetails,
+  MeansOfIdentification,
   Pep,
   SourceOfIncome,
 } from '@screens/Private/ProfileSetup';
@@ -25,6 +26,10 @@ export default function ProfileSetupStack() {
       <Stack.Screen name="BvnVerification" component={BvnVerification} />
       <Stack.Screen name="FacialRecognition" component={FacialRecognition} />
       <Stack.Screen name="LocationDetails" component={LocationDetails} />
+      <Stack.Screen
+        name="MeansOfIdentification"
+        component={MeansOfIdentification}
+      />
       <Stack.Screen name="Pep" component={Pep} />
       <Stack.Screen name="SourceOfIncome" component={SourceOfIncome} />
     </Stack.Navigator>

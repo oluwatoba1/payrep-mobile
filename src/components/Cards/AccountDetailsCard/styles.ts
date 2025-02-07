@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bottom1: {
-    borderWidth: 1,
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     alignSelf: 'stretch',
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'row',
     width: '100%',
-    gap: 8
+    gap: 8,
   },
   accountNumberContainer: {
     flexDirection: 'row',
@@ -92,9 +91,9 @@ const styles = StyleSheet.create({
     flexShrink: scale(0),
   },
   iconText: {
-    color: Colors.black
+    color: Colors.black,
   },
-  action:{
+  action: {
     backgroundColor: Colors.white,
     borderRadius: 100,
     height: scale(48),
@@ -107,9 +106,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 8,
     shadowRadius: 0.1,
-    elevation: 4
-  }
+    elevation: 4,
+  },
 });
 
-
-export {styles}
+export {styles};

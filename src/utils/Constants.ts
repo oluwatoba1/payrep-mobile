@@ -62,3 +62,10 @@ export const BASE_URL =
   APP_MODE === 'development' ? SANDBOX_BASE_URL : PROD_BASE_URL;
 console.log('BASE_URL::::::::::::::,,, ', BASE_URL);
 export const DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred';
+
+export const IDCardTypes = [
+  {label: "Int'l passport", value: 'international_passport'},
+  {label: "Driver's license", value: 'drivers_license'},
+  {label: "Voter's card", value: 'voters_card'},
+  {label: 'National ID card', value: 'national_id'},
+];

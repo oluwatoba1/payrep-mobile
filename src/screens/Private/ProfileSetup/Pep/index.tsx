@@ -22,8 +22,6 @@ export default function Pep({navigation: {navigate}}: PepProps) {
 
   const [value, setValue] = useState<boolean>(false);
 
-  console.log('-------', value);
-
   const submit = async () => {
     try {
       const {status, message} = await updatePep({

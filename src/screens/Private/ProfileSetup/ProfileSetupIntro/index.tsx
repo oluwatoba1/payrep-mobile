@@ -9,6 +9,7 @@ import {ProfileStep} from '@components/Miscellaneous';
 import UserProfileCard from '@components/UserProfileCard';
 import {useAppSelector} from '@store/hooks';
 import {styles} from './styles';
+import useToast from '@hooks/useToast';
 
 interface IStep {
   title: string;
@@ -76,6 +77,7 @@ export default function ProfileCompletionIntro({
   const stage = useAppSelector(
     state => state.auth.customer?.stage || 'NATIONALITY',
   );
+  const {showToast} = useToast();
   console.log(stage);
 
   return (
@@ -136,9 +138,15 @@ export default function ProfileCompletionIntro({
             description={step.description}
             completed={(profileSetupMap[stage] || 0) >= index + 1}
             isLastStep={index === steps.length - 1}
-            handleNavigation={() =>
-              navigate(step.screen as keyof ProfileStackParamList)
-            }
+            handleNavigation={() => {
+              if ((profileSetupMap[stage] || 0) + 1 === step.stage) {
+                navigate(step.screen as keyof ProfileStackParamList);
+              } else if ((profileSetupMap[stage] || 0) + 1 > step.stage) {
+                showToast('warning', 'This step has already been completed');
+              } else {
+                showToast('warning', 'The next step is not yet completed');
+              }
+            }}
           />
         ))}
       </View>

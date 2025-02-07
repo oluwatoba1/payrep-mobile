@@ -13,25 +13,25 @@ import IconImages from '../../../../assets/images/appIcons';
 import {styles} from './styles';
 import {Row} from '@components/Layout';
 
-interface CheckboxProps {
+interface RadioProps {
   label: string;
   value: boolean;
   onPress: () => void;
   containerStyle?: ViewStyle;
 }
 
-export default function Checkbox({
+export default function Radio({
   label,
   value,
   onPress,
   containerStyle = {},
-}: CheckboxProps) {
+}: RadioProps) {
   return (
     <Row alignItems="center" gap={5} containerStyle={containerStyle}>
-      <Pressable onPress={onPress} style={styles.checkbox}>
-        {value ? <View style={styles.check} /> : <View />}
+      <Pressable onPress={onPress} style={styles.container}>
+        {value ? <View style={styles.radio} /> : <View />}
       </Pressable>
-      <Typography title={label} type="body-r" />
+      <Typography title={label} type="body-sr" />
     </Row>
   );
 }

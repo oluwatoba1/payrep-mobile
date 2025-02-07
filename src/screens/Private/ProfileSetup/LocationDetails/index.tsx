@@ -66,7 +66,7 @@ export default function LocationDetails({
         residential_address: formData.residentialAddress,
       }).unwrap();
       if (status) {
-        navigate('Pep');
+        navigate('MeansOfIdentification');
       } else {
         showToast('danger', message);
       }
@@ -110,7 +110,7 @@ export default function LocationDetails({
       isLoading={isLoading}>
       <View style={mainProfileCompletionStyles.container}>
         <View style={mainProfileCompletionStyles.titleContainer}>
-          <Typography title="Location details" type="heading4-sb" />
+          <Typography title="Location and Nationality" type="heading4-sb" />
           <Typography
             type="body-r"
             title="Please provide your full address and nationality"

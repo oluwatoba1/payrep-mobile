@@ -34,6 +34,7 @@ export default function AttestationModal({
           label={agreement}
           value={isChecked}
           onPress={onCheckboxChange}
+          containerStyle={{width: '90%'}}
         />
       </View>
       <View>

@@ -17,7 +17,7 @@ import {
 import ScreenImages from '../../../../../../../../../assets/images/screens';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MoreStackParamList} from '../../../../../../../../navigation/types';
-import {ImagePicker} from '../../../../../../../../components/Forms/ImagePicker';
+import {ImagePicker} from '../../../../../../../../components/Forms/FileUploader';
 
 type AddressScreenProps = StackScreenProps<MoreStackParamList>;
 
