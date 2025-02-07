@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
-import {RootState} from '..';
+import {RootState, store} from '..';
 import {BASE_URL} from '@utils/Constants';
 
 const CustomerApi = createApi({
@@ -18,20 +18,38 @@ const CustomerApi = createApi({
   }),
   endpoints: builder => ({
     updateLocation: builder.mutation<AuthResponse<null>, LocationCredentials>({
-      query: body => ({
-        url: 'mobile/location',
-        body,
-      }),
+      query: body => {
+        const customerId: string = store.getState().auth.customer?.id || '';
+        return {
+          url: `mobile/location/${customerId}`,
+          method: 'PUT',
+          body,
+        };
+      },
     }),
     updatePep: builder.mutation<AuthResponse<null>, PepCredentials>({
-      query: body => ({
-        url: 'mobile/pep',
-        body,
-      }),
+      query: body => {
+        const customerId: string = store.getState().auth.customer?.id || '';
+        return {
+          url: `mobile/pep/${customerId}`,
+          method: 'PUT',
+          body,
+        };
+      },
+    }),
+    updateIncome: builder.mutation<AuthResponse<null>, SourceOfIncomeCredentials>({
+      query: body => {
+        const customerId: string = store.getState().auth.customer?.id || '';
+        return {
+          url: `mobile/income/${customerId}`,
+          method: 'PUT',
+          body,
+        };
+      },
     }),
   }),
 });
 
-export const {useUpdateLocationMutation, useUpdatePepMutation} = CustomerApi;
+export const {useUpdateLocationMutation, useUpdatePepMutation, useUpdateIncomeMutation} = CustomerApi;
 
 export default CustomerApi;

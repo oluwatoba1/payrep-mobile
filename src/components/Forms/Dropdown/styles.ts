@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import Colors from '../../../theme/Colors';
-import {scale, scaleHeight} from '../../../utils/Helpers';
+import {moderateScale, scale, scaleHeight} from '../../../utils/Helpers';
 import {PNB, PNR} from '../../../theme/Fonts';
 
 const styles = StyleSheet.create({
@@ -41,18 +41,6 @@ const styles = StyleSheet.create({
     color: Colors.gray[700],
     fontSize: scale(16),
   },
-  button: {
-    borderRadius: scale(8),
-    // paddingVertical: scaleHeight(12),
-    paddingHorizontal: scale(16),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderColor: Colors.gray[400],
-    borderWidth: scale(1),
-    height: scaleHeight(50),
-    width: '100%',
-  },
   buttonClose: {
     // marginTop: scale(20),
     backgroundColor: 'white',
@@ -69,13 +57,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  dropdownText: {
-    color: Colors.gray[700],
-    fontFamily: PNR,
-    fontSize: 14,
-    lineHeight: scaleHeight(21),
-    margin: 0,
-    height: '100%',
+  textInput: {
+    flex: 1,
+    minHeight: scaleHeight(50),
+    paddingVertical: scaleHeight(12),
+    paddingHorizontal: scale(16),
+    fontSize: moderateScale(16),
+    color: Colors.black,
   },
   modalHeader: {
     flexDirection: 'row',
@@ -111,6 +99,9 @@ const styles = StyleSheet.create({
   searchIcon: {
     width: scale(16),
     height: scaleHeight(16),
+  },
+  modalOptionContainer: {
+    padding: scaleHeight(15),
   },
 });
 

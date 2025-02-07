@@ -14,12 +14,7 @@ import Pad from '@components/Pad';
 import useLocationValidation from './validators';
 import {ProfileStackParamList} from '@navigation/types';
 import useToast from '@hooks/useToast';
-import { DEFAULT_ERROR_MESSAGE } from '@utils/Constants';
-
-interface Option {
-  label: string;
-  value: string;
-}
+import {DEFAULT_ERROR_MESSAGE} from '@utils/Constants';
 
 type LocationDetailsProps = StackScreenProps<
   ProfileStackParamList,
@@ -38,7 +33,7 @@ export default function LocationDetails({
     setLga,
     setResidentialAddress,
   } = useLocationValidation();
-  const {showToast} = useToast()
+  const {showToast} = useToast();
 
   const [updateLocation, {isLoading}] = useUpdateLocationMutation();
 
@@ -48,48 +43,71 @@ export default function LocationDetails({
     useFetchCountriesQuery();
 
   // Fetch LGAs dynamically
-  const [fetchLgas, {data: lgasData, isLoading: lgasLoading}] =
-    useFetchLgasMutation();
+  const [fetchLgas, {isLoading: lgasLoading}] = useFetchLgasMutation();
 
   // Local states for dropdown selections
-  const [selectedState, setSelectedState] = useState<Option | undefined>(
-    undefined,
-  );
-  const [selectedCountry, setSelectedCountry] = useState<Option | undefined>(
-    undefined,
-  );
-  const [selectedLga, setSelectedLga] = useState<Option | undefined>(undefined);
+  const [selectedState, setSelectedState] = useState<
+    DefaultDropdownOption | undefined
+  >(undefined);
+  const [selectedCountry, setSelectedCountry] = useState<
+    DefaultDropdownOption | undefined
+  >(undefined);
+  const [lgas, setLgas] = useState<any[]>([]);
+  const [selectedLga, setSelectedLga] = useState<
+    DefaultDropdownOption | undefined
+  >(undefined);
 
   const submit = async () => {
-      try {
-        const {status, message} = await updateLocation({
-          state: formData.state,
-          country: formData.country,
-          lga: formData.lga,
-          residential_address: formData.residentialAddress,
-        }).unwrap();
-        if (status) {
-          navigate('Pep');
-        } else {
-          showToast('danger', message);
-        }
-      } catch (error: ErrorResponse | any) {
-        showToast(
-          'danger',
-          error.data?.message || error.message || DEFAULT_ERROR_MESSAGE,
-        );
+    try {
+      const {status, message} = await updateLocation({
+        state: formData.state,
+        country: formData.country,
+        lga: formData.lga,
+        residential_address: formData.residentialAddress,
+      }).unwrap();
+      if (status) {
+        navigate('Pep');
+      } else {
+        showToast('danger', message);
       }
-    };
+    } catch (error: ErrorResponse | any) {
+      showToast(
+        'danger',
+        error.data?.message || error.message || DEFAULT_ERROR_MESSAGE,
+      );
+    }
+  };
+
+  const _fetchLgas = async () => {
+    try {
+      const {status, message, data} = await fetchLgas({
+        state: formData.state,
+      }).unwrap();
+      console.log(status, message, data);
+      if (status) {
+        setLgas(data);
+      } else {
+        showToast('danger', message);
+      }
+    } catch (error: ErrorResponse | any) {
+      showToast(
+        'danger',
+        error.data?.message || error.message || DEFAULT_ERROR_MESSAGE,
+      );
+    }
+  };
 
   // Update LGAs when state changes
   useEffect(() => {
     if (selectedState) {
-      fetchLgas({state: selectedState.value});
+      _fetchLgas();
     }
   }, [selectedState]);
 
   return (
-    <MainLayout backAction={() => navigate("ProfileCompletionIntro")} isLoading={isLoading}>
+    <MainLayout
+      backAction={() => navigate('ProfileCompletionIntro')}
+      isLoading={isLoading}>
       <View style={mainProfileCompletionStyles.container}>
         <View style={mainProfileCompletionStyles.titleContainer}>
           <Typography title="Location details" type="heading4-sb" />
@@ -112,12 +130,18 @@ export default function LocationDetails({
         {/* Country Dropdown */}
         <Dropdown
           label="Country"
-          options={countriesData?.data || []}
+          options={
+            countriesData?.data.map((option: any) => ({
+              label: option.name,
+              value: option.id,
+            })) || []
+          }
           selectedOption={selectedCountry}
           onSelect={option => {
             setSelectedCountry(option);
             setCountry(option.value);
           }}
+          error={formErrors.country}
           isLoading={countriesLoading}
         />
 
@@ -126,13 +150,19 @@ export default function LocationDetails({
         {/* State Dropdown */}
         <Dropdown
           label="State"
-          options={statesData?.data || []}
+          options={
+            statesData?.data.map((option: any) => ({
+              label: option.name,
+              value: option.id,
+            })) || []
+          }
           selectedOption={selectedState}
           onSelect={option => {
             setSelectedState(option);
             setState(option.value);
             setSelectedLga(undefined); // Reset LGA when state changes
           }}
+          error={formErrors.state}
           isLoading={statesLoading}
         />
 
@@ -141,12 +171,18 @@ export default function LocationDetails({
         {/* LGA Dropdown */}
         <Dropdown
           label="LGA"
-          options={lgasData?.data || []}
+          options={
+            lgas.map((option: any) => ({
+              label: option.name,
+              value: option.id,
+            })) || []
+          }
           selectedOption={selectedLga}
           onSelect={option => {
             setSelectedLga(option);
             setLga(option.value);
           }}
+          error={formErrors.lga}
           isLoading={lgasLoading}
         />
 

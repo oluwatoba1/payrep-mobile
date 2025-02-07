@@ -1,60 +1,59 @@
-import { StyleSheet } from "react-native";
-import { scale, scaleHeight } from "../../utils/Helpers";
-import Colors from "../../theme/Colors";
-import { PNB } from "../../theme/Fonts";
+import {StyleSheet} from 'react-native';
+import {scale, scaleHeight} from '../../utils/Helpers';
+import Colors from '../../theme/Colors';
+import {PNB} from '../../theme/Fonts';
+import {height} from '@utils/Constants';
 
 export const modalMainStyles = StyleSheet.create({
-    
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(71, 68, 60, 0.48)',
-    },
-    modalContent: {
-      backgroundColor: Colors.white,
-      padding: scaleHeight(16),
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      borderTopLeftRadius: scaleHeight(20),
-      borderTopRightRadius: scaleHeight(20),
-      minHeight: '30%',
-      maxHeight: '100%',
-    },
-    container: {
-      paddingVertical: scaleHeight(16),
-      flex: 1,
-    },
-    header: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: scaleHeight(16),
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(71, 68, 60, 0.48)',
+  },
+  modalContent: {
+    backgroundColor: Colors.white,
+    padding: scaleHeight(16),
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderTopLeftRadius: scaleHeight(20),
+    borderTopRightRadius: scaleHeight(20),
+    minHeight: height * 0.3,
+    maxHeight: height * 0.6,
+  },
+  container: {
+    paddingVertical: scaleHeight(16),
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: scaleHeight(16),
   },
   item: {
-      paddingVertical: scaleHeight(16),
-      paddingHorizontal: scale(8),
-      borderBottomWidth: scaleHeight(0.3),
-      borderColor: Colors.gray[300],
-      backgroundColor: Colors.gray[50],
-      // borderRadius: scaleHeight(8),
-      marginBottom: scaleHeight(8),
-      justifyContent: 'space-between',
-      flexDirection: 'row'
-    },
-    listContainer: {
-      flex: 1,
-      maxHeight: scaleHeight(300), 
-      
+    paddingVertical: scaleHeight(16),
+    paddingHorizontal: scale(8),
+    borderBottomWidth: scaleHeight(0.3),
+    borderColor: Colors.gray[300],
+    backgroundColor: Colors.gray[50],
+    // borderRadius: scaleHeight(8),
+    marginBottom: scaleHeight(8),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  listContainer: {
+    flex: 1,
+    maxHeight: scaleHeight(300),
   },
   onClose: {
-      borderWidth: scaleHeight(1),
-      borderColor: Colors.gray[300],
-      borderRadius: scaleHeight(16),
-      paddingVertical: scaleHeight(4),
-      paddingHorizontal: scale(8)
+    borderWidth: scaleHeight(1),
+    borderColor: Colors.gray[300],
+    borderRadius: scaleHeight(16),
+    paddingVertical: scaleHeight(4),
+    paddingHorizontal: scale(8),
   },
   searchContainer: {
     flexDirection: 'row',
@@ -74,7 +73,6 @@ export const modalMainStyles = StyleSheet.create({
     color: Colors.gray.base,
     fontFamily: PNB,
     backgroundColor: Colors.transparent,
-    
   },
   searchIcon: {
     width: scale(16),
@@ -82,7 +80,7 @@ export const modalMainStyles = StyleSheet.create({
   },
   icon: {
     width: scale(64),
-    height: scaleHeight(64)
+    height: scaleHeight(64),
   },
   card: {
     flexDirection: 'row',
@@ -94,11 +92,11 @@ export const modalMainStyles = StyleSheet.create({
     marginVertical: scale(4),
     backgroundColor: Colors.white,
     borderRadius: scaleHeight(8),
-    elevation: 1, 
+    elevation: 1,
     shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.1, 
-    shadowRadius: 8, 
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   },
   list: {
     flexDirection: 'row',
@@ -107,7 +105,7 @@ export const modalMainStyles = StyleSheet.create({
     paddingHorizontal: scale(8),
     backgroundColor: Colors.white,
     borderRadius: scaleHeight(8),
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   iconContainer: {
     borderWidth: 1,
@@ -126,5 +124,4 @@ export const modalMainStyles = StyleSheet.create({
     marginLeft: scale(16),
     marginVertical: scaleHeight(4),
   },
-  });
-  
+});

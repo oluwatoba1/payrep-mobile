@@ -25,6 +25,7 @@ const GeneralApi = createApi({
     fetchLgas: builder.mutation<AuthResponse<any>, {state: string}>({
       query: body => ({
         url: 'mobile/lgas',
+        method: 'POST',
         body,
       }),
     }),

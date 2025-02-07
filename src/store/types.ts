@@ -363,6 +363,12 @@ interface PepCredentials {
   pep: boolean
 }
 
+interface SourceOfIncomeCredentials {
+  occupation: string
+  annual_income: string;
+  employment_type: string
+}
+
 interface AuthResponse<Type> {
   status: boolean;
   message: string;

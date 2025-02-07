@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, View, Image, TextInputProps, FlatList} from 'react-native';
 import styles from './styles';
 import ComponentImages from '@assets/images/components';
@@ -28,6 +28,7 @@ interface DropDownProps extends TextInputProps {
   isCustomModal?: boolean;
   isLoading?: boolean;
   onTrigger?: () => void;
+  error?: string;
   customDropDownStyles?: object;
 }
 
@@ -38,7 +39,11 @@ const DropdownModal = ({
   options,
 }: DropdownModalProps) => {
   const [searchText, setSearchText] = useState<string>('');
-  const [filteredOptions, setFilteredOptions] = useState<Option[]>(options);
+  const [filteredOptions, setFilteredOptions] = useState<Option[]>([]);
+
+  useEffect(() => {
+    setFilteredOptions(options);
+  }, [options]);
 
   const onSearch = (value: string) => {
     const escapedTerm = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -52,27 +57,27 @@ const DropdownModal = ({
   };
   return (
     <ModalWrapper visible={showModal} onClose={onClose}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          label=""
-          style={styles.searchInput}
-          placeholder="Search here..."
-          placeholderTextColor="#828A8E"
-          value={searchText}
-          onChangeText={onSearch}
-          leftNode={
-            <Image
-              source={ComponentImages.dropdDown.search}
-              style={styles.searchIcon}
-            />
-          }
-        />
-      </View>
+      <TextInput
+        label=""
+        placeholder="Search here..."
+        placeholderTextColor="#828A8E"
+        value={searchText}
+        onChangeText={onSearch}
+        leftNode={
+          <Image
+            source={ComponentImages.dropdDown.search}
+            style={styles.searchIcon}
+          />
+        }
+      />
+
       <Pad />
       <FlatList<Option>
         data={filteredOptions}
         renderItem={({item}) => (
-          <Pressable onPress={() => onSelect(item)}>
+          <Pressable
+            style={styles.modalOptionContainer}
+            onPress={() => onSelect(item)}>
             <Typography title={item.label} type="body-sr" />
           </Pressable>
         )}
@@ -89,6 +94,7 @@ export default function Dropdown({
   isCustomModal = false,
   options = [],
   onTrigger = () => {},
+  error = '',
   customDropDownStyles = {},
   ...props
 }: DropDownProps) {
@@ -99,16 +105,13 @@ export default function Dropdown({
   };
 
   return (
-    <View style={[styles.centeredView, customDropDownStyles]}>
-      <Pressable
-        style={styles.button}
-        onPress={() => (!isCustomModal ? _onTrigger() : onTrigger())}>
+    <View>
+      <Pressable onPress={() => (!isCustomModal ? _onTrigger() : onTrigger())}>
         <TextInput
           {...props}
           label={label}
           editable={false}
-          style={styles.dropdownText}
-          value={selectedOption?.value || ''}
+          value={selectedOption?.label || ''}
           placeholder={
             !!selectedOption?.value
               ? selectedOption?.value
@@ -118,6 +121,7 @@ export default function Dropdown({
             props.placeholderTextColor || Colors.gray['base']
           }
           rightNode={<Image source={ComponentImages.dropdDown.arrowDown} />}
+          error={error}
         />
       </Pressable>
       <DropdownModal

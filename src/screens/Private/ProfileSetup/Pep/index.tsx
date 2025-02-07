@@ -3,18 +3,15 @@ import {View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 
 import {Button, Typography} from '../../../../components/Forms';
-import {MainLayout} from '../../../../components/Layout';
+import {MainLayout, Row} from '../../../../components/Layout';
 import {mainProfileCompletionStyles} from '../mainProfileCompletionStyles';
-import {useAppDispatch, useAppSelector} from '../../../../store/hooks';
-import {
-  HomeStackParamList,
-  ProfileStackParamList,
-} from '../../../../navigation/types';
+import {ProfileStackParamList} from '../../../../navigation/types';
 import DashedProgressBar from '../../../../components/ProgressBars/DashedProgressBar';
 import {CustomSwitch} from '@components/Forms';
 import {useUpdatePepMutation} from '@store/apis/customerApi';
 import useToast from '@hooks/useToast';
 import {DEFAULT_ERROR_MESSAGE} from '@utils/Constants';
+import Pad from '@components/Pad';
 
 type PepProps = StackScreenProps<ProfileStackParamList, 'Pep'>;
 
@@ -24,6 +21,8 @@ export default function Pep({navigation: {navigate}}: PepProps) {
   const [updatePep, {isLoading}] = useUpdatePepMutation();
 
   const [value, setValue] = useState<boolean>(false);
+
+  console.log('-------', value);
 
   const submit = async () => {
     try {
@@ -48,16 +47,13 @@ export default function Pep({navigation: {navigate}}: PepProps) {
       isLoading={isLoading}>
       <View style={mainProfileCompletionStyles.container}>
         <View>
-          <View style={mainProfileCompletionStyles.titleContainer}>
-            <Typography title="PEP Status" type="heading4-sb" />
-            <DashedProgressBar progress={6} />
-            <Typography
-              type="body-r"
-              title="Are you politically exposed? Toggle switch on or off for yes or no respectively."
-            />
-          </View>
+          <Typography title="PEP Status" type="heading4-sb" />
 
-          <CustomSwitch value={value} onValueChange={setValue} />
+          <Pad size={20} />
+          <Row justifyContent="flex-start">
+            <Typography type="text" title="I am a politically exposed person" />
+            <CustomSwitch value={value} onValueChange={setValue} />
+          </Row>
         </View>
         <View style={mainProfileCompletionStyles.buttonContainer}>
           <Button title="Save" onPress={submit} />

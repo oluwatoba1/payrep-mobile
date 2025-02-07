@@ -59,13 +59,16 @@ const steps: IStep[] = [
 
 const profileSetupMap: Record<string, number> = {
   BVN_VERIFICATION: 1,
-  ADDRESS_REGISTRATION: 2,
-  IDENTIFICATION_REGISTRATION: 3,
-  PEP_IDENTIFICATION: 4,
+  LOCATION: 2,
+  IDENTIFICATION: 3,
+  PEP: 4,
   SOURCE_OF_INCOME: 5,
 };
 
-type ProfileCompletionIntroProps = StackScreenProps<ProfileStackParamList>;
+type ProfileCompletionIntroProps = StackScreenProps<
+  ProfileStackParamList,
+  'ProfileCompletionIntro'
+>;
 
 export default function ProfileCompletionIntro({
   navigation: {navigate},

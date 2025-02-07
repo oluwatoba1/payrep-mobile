@@ -1,13 +1,9 @@
-import { Dimensions, StatusBar } from 'react-native';
+import {Dimensions, StatusBar} from 'react-native';
 
-import {
-  APP_MODE,
-  PROD_BASE_URL,
-  SANDBOX_BASE_URL,
-} from '@env';
+import {APP_MODE, PROD_BASE_URL, SANDBOX_BASE_URL} from '@env';
 import ComponentImages from '../../assets/images/components';
 
-export const { height, width } = Dimensions.get('window');
+export const {height, width} = Dimensions.get('window');
 
 export const baseDP = 10;
 
@@ -62,6 +58,7 @@ export const USER_TYPES = [
   },
 ];
 
-export const BASE_URL = APP_MODE === 'development' ? SANDBOX_BASE_URL : PROD_BASE_URL;
-console.log("BASE_URL::::::::: ", BASE_URL)
-export const DEFAULT_ERROR_MESSAGE = "An unexpected error occurred"
+export const BASE_URL =
+  APP_MODE === 'development' ? SANDBOX_BASE_URL : PROD_BASE_URL;
+console.log('BASE_URL::::::::::::::,,, ', BASE_URL);
+export const DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred';

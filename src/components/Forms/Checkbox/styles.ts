@@ -1,17 +1,21 @@
-import { StyleSheet } from "react-native";
-import { scale, scaleHeight } from "../../../utils/Helpers";
+import {StyleSheet} from 'react-native';
+import {moderateScale, scale, scaleHeight} from '../../../utils/Helpers';
+import Colors from '@theme/Colors';
 
 export const styles = StyleSheet.create({
-    container: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: scaleHeight(40),
-      
-    },
-    textContainer: {
-        flex: 1,
-    },
-    checkboxText: {
-      flexShrink: 1
-    },
-  });
+  checkbox: {
+    height: scaleHeight(22),
+    width: scaleHeight(22),
+    borderWidth: 2,
+    borderColor: Colors.primary.base,
+    borderRadius: moderateScale(5),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  check: {
+    height: scaleHeight(16),
+    width: scaleHeight(16),
+    backgroundColor: Colors.black,
+    borderRadius: moderateScale(3),
+  },
+});

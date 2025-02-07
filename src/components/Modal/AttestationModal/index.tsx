@@ -1,10 +1,8 @@
 import React from 'react';
-import { View } from "react-native";
-import CustomModal from '..';
-import Checkbox from '../../Forms/Checkbox';
-import { Button, Typography } from "../../Forms";
-import { modalMainStyles } from '../styles';
-import { styles } from './styles';
+import {View} from 'react-native';
+import {ModalWrapper} from '..';
+import {Button, Checkbox, Typography} from '@components/Forms';
+import {styles} from './styles';
 
 interface AttestationModalProps {
   showModal: boolean;
@@ -14,7 +12,7 @@ interface AttestationModalProps {
   agreement: string;
   isChecked: boolean;
   onCheckboxChange: () => void;
-  onPressSubmit?: () => void;
+  onSubmit?: () => void;
 }
 
 export default function AttestationModal({
@@ -25,29 +23,26 @@ export default function AttestationModal({
   agreement,
   isChecked,
   onCheckboxChange,
-  onPressSubmit
+  onSubmit = () => {},
 }: AttestationModalProps) {
-  const handleSubmit = () => {
-    if (onPressSubmit) {
-      onPressSubmit()
-    }
-    onClose()
-
-  }
   return (
-    <CustomModal visible={showModal} onClose={onClose}>
-      <View style={[modalMainStyles.modalContent, styles.container]}>
+    <ModalWrapper visible={showModal} onClose={onClose}>
+      <View style={styles.container}>
         <Typography title={title} />
-        <Typography title={description} type='body-r' />
+        <Typography title={description} type="body-r" />
         <Checkbox
-          text={agreement}
-          isChecked={isChecked}
+          label={agreement}
+          value={isChecked}
           onPress={onCheckboxChange}
         />
       </View>
       <View>
-        <Button title='Submit' onPress={handleSubmit} />
+        <Button
+          disabled={!isChecked}
+          title="Submit"
+          onPress={() => [onSubmit(), onClose()]}
+        />
       </View>
-    </CustomModal>
+    </ModalWrapper>
   );
 }
