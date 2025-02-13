@@ -1,6 +1,6 @@
-import { TextStyle, ViewStyle } from 'react-native';
-import { moderateScale, scale } from '../../../utils/Helpers';
-import { PNB } from '../../../theme/Fonts';
+import {TextStyle, ViewStyle} from 'react-native';
+import {moderateScale, scale} from '../../../utils/Helpers';
+import {PNB} from '../../../theme/Fonts';
 import Colors from '../../../theme/Colors';
 
 interface PinPadStyleFunction {
@@ -21,7 +21,7 @@ const styles: PinPadStyle = {
     alignItems: 'center',
   },
   pinPad: (isFocused, isLastItem, padLength) => {
-    const _width = (48 * 4) / padLength;
+    const _width = (70 * 4) / padLength;
     return {
       borderWidth: 1,
       borderColor: isFocused ? Colors.black : Colors.gray[400],
@@ -33,6 +33,8 @@ const styles: PinPadStyle = {
       fontFamily: PNB,
       color: Colors.black,
       textAlign: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
     };
   },
   error: {

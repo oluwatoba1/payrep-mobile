@@ -4,7 +4,6 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
 import styles from './styles';
 import ComponentImages from '../../../assets/images/components';
-import {scaleHeight} from '@utils/Helpers';
 
 const Icon = ({
   routeName,

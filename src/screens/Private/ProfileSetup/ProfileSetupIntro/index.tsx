@@ -74,9 +74,10 @@ type ProfileCompletionIntroProps = StackScreenProps<
 export default function ProfileCompletionIntro({
   navigation: {navigate},
 }: ProfileCompletionIntroProps) {
-  const stage = useAppSelector(
-    state => state.auth.customer?.stage || 'NATIONALITY',
-  );
+  const customer = useAppSelector(state => state.auth.customer);
+
+  const stage = customer?.stage || 'NATIONALITY';
+
   const {showToast} = useToast();
   console.log(stage);
 
@@ -86,16 +87,14 @@ export default function ProfileCompletionIntro({
       keyboardAvoidingType="scroll-view"
       backAction={() => {}}>
       <View style={styles.userCardContainer}>
-        <UserProfileCard
-          profileImage={IconImages.users.defaultUser}
-          username="Musa Abdullahi"
-          mobileNumber="(070653263623)"
-        />
+        {customer?.first_name ? (
+          <UserProfileCard
+            profileImage={IconImages.users.defaultUser}
+            username={customer.first_name || ''}
+            mobileNumber={`0(${customer.username})`}
+          />
+        ) : null}
       </View>
-      {/* <CustomCard
-                    visible={true}
-                    customContainerStyle={styles.cardContainer}
-                > */}
       <View style={styles.cardContent}>
         <View>
           <Typography

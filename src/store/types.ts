@@ -4,6 +4,7 @@ interface IAppState {
   showBalance?: boolean;
   enableBiometrics?: boolean;
   customer?: ICustomerInfo | null;
+  hasEverLoggedIn?: boolean;
 }
 
 enum RegistrationSteps {
@@ -360,13 +361,13 @@ interface LocationCredentials {
 }
 
 interface PepCredentials {
-  pep: boolean
+  pep: boolean;
 }
 
 interface SourceOfIncomeCredentials {
-  occupation: string
+  occupation: string;
   annual_income: string;
-  employment_type: string
+  employment_type: string;
 }
 
 interface AuthResponse<Type> {

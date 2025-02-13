@@ -8,7 +8,7 @@ import ReactNativeBiometrics from 'react-native-biometrics';
 import styles from './styles';
 import IconImages from '@assets/images/appIcons';
 import {Button, Typography, TextInput} from '@components/Forms';
-import {AuthLayout} from '@components/Layout';
+import {AuthLayout, Row} from '@components/Layout';
 import {PublicNavigatorParamList} from '@navigation/types';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {setCustomer, setCredentials} from '@store/slices/authSlice';
@@ -19,6 +19,9 @@ import useLoginValidation from './validator';
 import {persistAppState} from '@utils/Helpers';
 import {updateAppstate} from '@store/slices/appSlice';
 import {useRegisterBiometricsMutation} from '../../../store/apis/authApi';
+import {EnableBiometricsModal} from '@components/Modal';
+import {PNB} from '@theme/Fonts';
+import Colors from '@theme/Colors';
 
 type LoginProps = StackScreenProps<PublicNavigatorParamList, 'Login'>;
 
@@ -43,23 +46,24 @@ export default function Login({navigation: {navigate}}: LoginProps) {
     useState<boolean>(false);
   const [biometricAvailable, setIsBiometricAvailable] =
     useState<boolean>(false);
+  const [notYou, setNotYou] = useState<boolean>(!customer?.username);
+  const [showBiometricsModal, setShowBiometricsModal] =
+    useState<boolean>(false);
+  const [token, setToken] = useState<string>('');
 
   const prepUserDetails = async ({
     status,
     message,
     data,
   }: AuthResponse<LoginResponse>) => {
-    const rnBiometrics = new ReactNativeBiometrics();
-
-    const {keysExist} = await rnBiometrics.biometricKeysExist();
-    if (!keysExist) {
-      await handleRegisterBiometrics();
-    } else {
+    if (status) {
+      // persist customer details
       await persistAppState({
         customer: {
           ...data.customer,
           username: !!username ? username : customer?.username,
         },
+        hasEverLoggedIn: true,
       });
       dispatch(
         setCustomer({
@@ -67,6 +71,12 @@ export default function Login({navigation: {navigate}}: LoginProps) {
           username: !!username ? username : customer?.username,
         }),
       );
+      setToken(data.token);
+      // Show biometric modal if user has never logged in, or
+      // Set token to navigate to dashbord or profile setup
+      !appState?.hasEverLoggedIn
+        ? setShowBiometricsModal(true)
+        : dispatch(setCredentials({token: data.token, user_id: null}));
     }
 
     showToast(status ? 'success' : 'danger', message);
@@ -87,10 +97,11 @@ export default function Login({navigation: {navigate}}: LoginProps) {
         signature_payload: payload,
       }).unwrap();
 
+      console.log(data);
+
       setShowRegisterDeviceModal(data.is_new_device);
 
       await prepUserDetails({status, message, data});
-      dispatch(setCredentials({token: data.token, user_id: data.user_id}));
     } catch (error: ErrorResponse | any) {
       showToast(
         'danger',
@@ -100,37 +111,34 @@ export default function Login({navigation: {navigate}}: LoginProps) {
     }
   };
 
-  const handleRegisterBiometrics = async () => {
+  const handleRegisterBiometrics = async (enableBiometrics: boolean) => {
     const rnBiometrics = new ReactNativeBiometrics();
-    const {publicKey} = await rnBiometrics.createKeys();
 
-    try {
-      const {status, message} = await registerBiometrics({
-        username,
-        public_key: publicKey,
-      }).unwrap();
-      if (status) {
-        persistAppState({
-          enableBiometrics: true,
-          customer: {
-            ...customer,
-            username: !!username ? username : customer?.username,
-          },
-        });
-        dispatch(
-          updateAppstate({
-            enableBiometrics: true,
-            customer: {
-              ...customer,
-              username: !!username ? username : customer?.username,
-            },
-          }),
-        );
-        return;
+    const {keysExist} = await rnBiometrics.biometricKeysExist();
+
+    if (!keysExist) {
+      const {publicKey} = await rnBiometrics.createKeys();
+
+      try {
+        const {status, message} = await registerBiometrics({
+          username,
+          public_key: publicKey,
+        }).unwrap();
+        if (status) {
+          persistAppState({
+            enableBiometrics,
+          });
+          dispatch(
+            updateAppstate({
+              enableBiometrics,
+            }),
+          );
+          return;
+        }
+        showToast('danger', message);
+      } catch (error) {
+        showToast('danger', 'Biometrics setup error');
       }
-      showToast('danger', message);
-    } catch (error) {
-      showToast('danger', 'Biometrics setup error');
     }
   };
 
@@ -167,8 +175,20 @@ export default function Login({navigation: {navigate}}: LoginProps) {
     checkBiometricSensor();
   }, []);
 
+  useEffect(() => {
+    setUsername(customer?.username || '');
+  }, []);
+
   return (
     <AuthLayout isLoading={isLoading}>
+      <EnableBiometricsModal
+        showModal={showBiometricsModal}
+        onClose={() => setShowBiometricsModal(false)}
+        onProceed={() => [
+          handleRegisterBiometrics(true),
+          dispatch(setCredentials({token, user_id: null})),
+        ]}
+      />
       <View style={styles.top}>
         <Image
           source={IconImages.logo.payrepBlackWithText}
@@ -176,16 +196,28 @@ export default function Login({navigation: {navigate}}: LoginProps) {
 
         <View style={styles.overlay}>
           <View style={styles.overlayContent}>
-            <Typography
-              type="heading5-sb"
-              title={`${
-                customer?.username
-                  ? `Welcome back, ${customer.first_name || 'Customer'}`
-                  : 'Login with your username and password'
-              }`}
-            />
+            <Row>
+              <Typography
+                type="heading5-sb"
+                title={`${
+                  !notYou
+                    ? `Welcome back, ${customer?.first_name || 'Customer'}`
+                    : 'Login with your username and password'
+                }`}
+              />
+
+              {!notYou ? (
+                <Typography
+                  title="Not you?"
+                  type="subheading-sb"
+                  style={{fontFamily: PNB}}
+                  color={Colors.primary.base}
+                  onPress={() => setNotYou(true)}
+                />
+              ) : null}
+            </Row>
             <View style={styles.inputGroup}>
-              {!customer?.username ? (
+              {notYou ? (
                 <TextInput
                   type="phone"
                   label="Username"

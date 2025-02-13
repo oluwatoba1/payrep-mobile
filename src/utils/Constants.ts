@@ -15,7 +15,7 @@ export const BOTTOM_TAB_CONTAINER_HEIGHT = 71;
 
 export const HEADER_CONTAINER_HEIGHT = 60;
 
-export const RESEND_COUNTDOWN = 300;
+export const RESEND_COUNTDOWN = 600;
 
 export const ONBOARDING_DATA = [
   {
@@ -60,7 +60,7 @@ export const USER_TYPES = [
 
 export const BASE_URL =
   APP_MODE === 'development' ? SANDBOX_BASE_URL : PROD_BASE_URL;
-console.log('BASE_URL::::::::::::::,,, ', BASE_URL);
+console.log('BASE_URL::::::::::----==--==::::::::: ', BASE_URL);
 export const DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred';
 
 export const IDCardTypes = [

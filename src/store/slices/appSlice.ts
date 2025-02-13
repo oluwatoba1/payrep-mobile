@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export interface App {
   appState: IAppState | null;
@@ -11,7 +11,7 @@ const initialState: App = {
 };
 export const createToastRequest = createAsyncThunk(
   'app/createToastRequest',
-  async (payload: IToastItem, { dispatch }) => {
+  async (payload: IToastItem, {dispatch}) => {
     dispatch(AppSlice.actions.addToastRequest(payload));
 
     setTimeout(() => {
@@ -24,8 +24,11 @@ const AppSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    updateAppstate: (state, action: PayloadAction<Partial<IAppState> | null>) => {
-      state.appState = action.payload
+    updateAppstate: (
+      state,
+      action: PayloadAction<Partial<IAppState> | null>,
+    ) => {
+      state.appState = action.payload;
     },
     addToastRequest: (state, action: PayloadAction<IToastItem>) => {
       state.toastRequests.push(action.payload);
@@ -36,6 +39,6 @@ const AppSlice = createSlice({
   },
 });
 
-export const { updateAppstate } = AppSlice.actions;
+export const {updateAppstate} = AppSlice.actions;
 
 export default AppSlice;

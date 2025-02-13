@@ -1,5 +1,5 @@
 import {TextStyle, ViewStyle} from 'react-native';
-import {scale} from '../../../utils/Helpers';
+import {moderateScale, scale} from '../../../utils/Helpers';
 import {baseDP} from '../../../utils/Constants';
 import Colors from '../../../theme/Colors';
 import {PNB} from '../../../theme/Fonts';
@@ -16,12 +16,13 @@ type ButtonStyle = {
 export const styles: ButtonStyle = {
   buttonContainer: (backgroundColor: string) => ({
     backgroundColor,
-    borderRadius: scale(baseDP * 2.4),
+    borderRadius: moderateScale(baseDP * 2.4),
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: scale(8),
     paddingHorizontal: scale(16),
     height: scale(48),
+    minWidth: scale(100),
   }),
   buttonText: {
     color: Colors.gray[700],

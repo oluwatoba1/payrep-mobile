@@ -62,11 +62,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: scaleHeight(85 / 2),
     backgroundColor: Colors.appBackground,
-    elevation: 0.15,
-    shadowColor: Colors.black,
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 0.15,
   },
   homeIconWrapper: {
     width: scaleHeight(70),
@@ -77,11 +72,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: moderateScale(4),
     borderColor: Colors.white,
-    elevation: 8,
-    shadowColor: Colors.black,
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
   },
   curveSvg: {
     position: 'absolute',
